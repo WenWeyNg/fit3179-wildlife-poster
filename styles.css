@@ -1,0 +1,251 @@
+/* styles.css - Victorian Suburban Wildlife Poster */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap');
+
+:root {
+  --bg-page: #e2e8f0;
+  --bg-poster: #ffffff;
+  --bg-card: #f8fafc;
+  --primary-dark: #0f172a;
+  --accent-teal: #0284c7;
+  --accent-red: #dc2626;
+  --accent-purple: #7c3aed;
+  --accent-amber: #d97706;
+  --text-main: #1e293b;
+  --text-muted: #475569;
+  --border-light: #cbd5e1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-page);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-main);
+  line-height: 1.6;
+  padding: 30px 15px;
+}
+
+/* Main Poster Container */
+.poster-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  background-color: var(--bg-poster);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+}
+
+/* Poster Hero Header */
+.poster-header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #ffffff;
+  padding: 44px 48px 36px;
+  text-align: center;
+}
+
+.poster-kicker {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
+
+.poster-header h1 {
+  font-family: 'Merriweather', serif;
+  font-size: 2.35rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
+.poster-subtitle {
+  max-width: 880px;
+  margin: 0 auto 28px;
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  font-weight: 400;
+}
+
+/* KPI Summary Strip */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.kpi-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.kpi-value {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.kpi-label {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-top: 4px;
+}
+
+/* Section Styling */
+.poster-section {
+  padding: 36px 44px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.section-banner {
+  margin-bottom: 24px;
+  border-left: 5px solid var(--accent-teal);
+  padding-left: 16px;
+}
+
+.section-banner h2 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.45rem;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+
+.section-banner p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Grid Layouts */
+.grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.grid-full {
+  margin-bottom: 28px;
+}
+
+.grid-story-row {
+  display: grid;
+  grid-template-columns: 1.85fr 1fr;
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+/* Card Containers */
+.vis-card {
+  background-color: var(--bg-card);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.vis-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+/* Narrative Callout Box */
+.narrative-box {
+  background-color: #f1f5f9;
+  border-radius: 10px;
+  padding: 24px;
+  border-top: 4px solid var(--accent-teal);
+}
+
+.narrative-box h3 {
+  font-size: 1.12rem;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+}
+
+.narrative-box p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.caption-text {
+  width: 100%;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-light);
+}
+
+/* Group Legend Pills */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.78rem;
+  color: #fff;
+}
+.badge-native { background-color: var(--accent-teal); }
+.badge-invasive { background-color: var(--accent-red); }
+.badge-mammal { background-color: var(--accent-purple); }
+.badge-reptile { background-color: var(--accent-amber); }
+
+/* Vega Bindings (Sliders & Dropdowns) Styling */
+.vega-bindings {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--primary-dark);
+  font-weight: 500;
+}
+
+.vega-bind {
+  margin-bottom: 6px;
+}
+
+.vega-bind select, .vega-bind input[type="range"] {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+/* Footer */
+.poster-footer {
+  background-color: var(--primary-dark);
+  color: #94a3b8;
+  padding: 24px 44px;
+  font-size: 0.84rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.poster-footer strong {
+  color: #f8fafc;
+}
+
+@media (max-width: 1100px) {
+  .grid-2col, .grid-story-row {
+    grid-template-columns: 1fr;
+  }
+  .kpi-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

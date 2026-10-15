@@ -1,0 +1,28 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Seasonality heatmap: each species' sightings per month compared with its own typical month",
+  "data": {"url": "data/sightings.csv"},
+  "transform": [
+    {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["species", "group", "month"]},
+    {"joinaggregate": [{"op": "mean", "field": "n", "as": "typical"}], "groupby": ["species"]},
+    {"calculate": "datum.n / datum.typical", "as": "index"},
+    {"calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.month-1]", "as": "mon"}
+  ],
+  "width": 480, "height": {"step": 34},
+  "mark": {"type": "rect", "stroke": "#fff", "strokeWidth": 1.5},
+  "encoding": {
+    "x": {"field": "mon", "type": "ordinal", "title": null, "axis": {"orient": "top", "labelAngle": 0},
+          "sort": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
+    "y": {"field": "species", "type": "nominal", "title": null, "sort": {"field": "group"}},
+    "color": {"field": "index", "type": "quantitative",
+              "title": ["Sightings vs a typical month", "(1 = typical)"],
+              "scale": {"scheme": "purpleorange", "domainMid": 1, "domain": [0.2, 1.8], "clamp": true, "reverse": true}},
+    "tooltip": [
+      {"field": "species", "title": "Species"},
+      {"field": "mon", "title": "Month"},
+      {"field": "n", "title": "Sightings (all years)"},
+      {"field": "index", "title": "Vs typical month", "format": ".2f"}
+    ]
+  },
+  "config": {"view": {"stroke": null}, "axis": {"domain": false, "ticks": false}}
+}

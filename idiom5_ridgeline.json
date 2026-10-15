@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "The Urban Sprawl Gradient: Distance from Melbourne CBD by Species",
+    "subtitle": "Ridgeline density distribution of sightings from 0 km (Melbourne CBD) to 80 km (Outer Peri-Urban Fringe)",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "data": {"url": "data/sightings.csv"},
+  "transform": [
+    {"calculate": "toNumber(datum.km_cbd)", "as": "dist"},
+    {"filter": "datum.dist <= 80"},
+    {
+      "density": "dist",
+      "groupby": ["species", "group"],
+      "extent": [0, 80],
+      "steps": 80
+    }
+  ],
+  "facet": {
+    "row": {
+      "field": "species",
+      "type": "nominal",
+      "sort": [
+        "Indian Myna",
+        "Rainbow Lorikeet",
+        "Noisy Miner",
+        "Australian Magpie",
+        "Australian King-Parrot",
+        "Common Brushtail Possum",
+        "Common Blackbird",
+        "Garden Sunskink"
+      ],
+      "title": null,
+      "header": {
+        "labelAngle": 0,
+        "labelAlign": "left",
+        "labelFontSize": 12,
+        "labelFontWeight": "bold"
+      }
+    }
+  },
+  "spec": {
+    "width": 520,
+    "height": 42,
+    "mark": {
+      "type": "area",
+      "interpolate": "monotone",
+      "fillOpacity": 0.75,
+      "stroke": "#1e293b",
+      "strokeWidth": 1.2
+    },
+    "encoding": {
+      "x": {
+        "field": "value",
+        "type": "quantitative",
+        "title": "Distance from Melbourne CBD (km)",
+        "scale": {"domain": [0, 80]}
+      },
+      "y": {
+        "field": "density",
+        "type": "quantitative",
+        "axis": null,
+        "scale": {"range": [42, -18]}
+      },
+      "color": {
+        "field": "group",
+        "type": "nominal",
+        "title": "Ecological Group",
+        "scale": {
+          "domain": ["Native bird", "Invasive bird", "Mammal", "Reptile"],
+          "range": ["#0284c7", "#dc2626", "#7c3aed", "#d97706"]
+        }
+      },
+      "tooltip": [
+        {"field": "species", "type": "nominal", "title": "Species"},
+        {"field": "group", "type": "nominal", "title": "Group"},
+        {"field": "value", "type": "quantitative", "title": "Distance from CBD (km)", "format": ".1f"},
+        {"field": "density", "type": "quantitative", "title": "Relative Density", "format": ".4f"}
+      ]
+    }
+  },
+  "bounds": "flush",
+  "spacing": 0,
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axisX": {"grid": true, "gridOpacity": 0.3}
+  }
+}

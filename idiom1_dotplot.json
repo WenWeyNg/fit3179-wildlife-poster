@@ -1,0 +1,89 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Dot Plot Map: Individual Wildlife Sightings Across Victoria",
+    "subtitle": "Each dot represents a single citizen science observation, coloured by ecological group",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "width": 700,
+  "height": 450,
+  "background": "#f8fafc",
+  "projection": {
+    "type": "mercator",
+    "center": [145.4, -36.6],
+    "scale": 4200
+  },
+  "params": [
+    {
+      "name": "year_select",
+      "value": 2025,
+      "bind": {
+        "input": "range",
+        "min": 2020,
+        "max": 2026,
+        "step": 1,
+        "name": "Observation Year: "
+      }
+    },
+    {
+      "name": "month_select",
+      "value": 9,
+      "bind": {
+        "input": "range",
+        "min": 1,
+        "max": 12,
+        "step": 1,
+        "name": "Observation Month (1=Jan, 9=Sep): "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "data/LGA_2025_AUST_GDA2020.json",
+        "format": {"type": "json", "property": "geometries"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#94a3b8",
+        "strokeWidth": 0.8
+      }
+    },
+    {
+      "data": {"url": "data/sightings.csv"},
+      "transform": [
+        {"filter": "datum.year == year_select && datum.month == month_select"}
+      ],
+      "mark": {
+        "type": "circle",
+        "size": 24,
+        "opacity": 0.75
+      },
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "color": {
+          "field": "group",
+          "type": "nominal",
+          "title": "Ecological Group",
+          "scale": {
+            "domain": ["Native bird", "Invasive bird", "Mammal", "Reptile"],
+            "range": ["#0284c7", "#dc2626", "#7c3aed", "#d97706"]
+          }
+        },
+        "tooltip": [
+          {"field": "species", "type": "nominal", "title": "Species"},
+          {"field": "group", "type": "nominal", "title": "Group"},
+          {"field": "year", "type": "ordinal", "title": "Year"},
+          {"field": "month", "type": "ordinal", "title": "Month"},
+          {"field": "hour", "type": "quantitative", "title": "Hour (24h)"},
+          {"field": "km_cbd", "type": "quantitative", "title": "Distance to CBD (km)", "format": ".1f"}
+        ]
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

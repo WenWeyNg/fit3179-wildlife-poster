@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "2D Bin Map: Urban Micro-Habitat Density Across Greater Melbourne",
+    "subtitle": "Spatial binning (~2km grid cells) of citizen science wildlife observations overlaid on LGA boundaries",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "width": 650,
+  "height": 480,
+  "background": "#f8fafc",
+  "projection": {
+    "type": "mercator",
+    "center": [145.02, -37.88],
+    "scale": 21000
+  },
+  "params": [
+    {
+      "name": "species_filter",
+      "value": "Australian King-Parrot",
+      "bind": {
+        "input": "select",
+        "options": [
+          "Australian Magpie",
+          "Rainbow Lorikeet",
+          "Noisy Miner",
+          "Australian King-Parrot",
+          "Indian Myna",
+          "Common Blackbird",
+          "Common Brushtail Possum",
+          "Garden Sunskink"
+        ],
+        "name": "Select Wildlife Species: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "data/LGA_2025_AUST_GDA2020.json",
+        "format": {"type": "json", "property": "geometries"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#64748b",
+        "strokeWidth": 0.9
+      }
+    },
+    {
+      "data": {"url": "data/sightings.csv"},
+      "transform": [
+        {"filter": "datum.species == species_filter"},
+        {"filter": "datum.lat >= -38.5 && datum.lat <= -37.4 && datum.lon >= 144.3 && datum.lon <= 145.7"},
+        {"calculate": "round(datum.lat * 50) / 50", "as": "lat_grid"},
+        {"calculate": "round(datum.lon * 50) / 50", "as": "lon_grid"},
+        {
+          "aggregate": [
+            {"op": "count", "as": "cell_sightings"},
+            {"op": "mean", "field": "km_cbd", "as": "dist_cbd"}
+          ],
+          "groupby": ["lat_grid", "lon_grid", "species", "group"]
+        }
+      ],
+      "mark": {
+        "type": "square",
+        "opacity": 0.85
+      },
+      "encoding": {
+        "longitude": {"field": "lon_grid", "type": "quantitative"},
+        "latitude": {"field": "lat_grid", "type": "quantitative"},
+        "size": {"value": 65},
+        "color": {
+          "field": "cell_sightings",
+          "type": "quantitative",
+          "title": "Sightings (Log)",
+          "scale": {"type": "log", "scheme": "magma", "reverse": true}
+        },
+        "tooltip": [
+          {"field": "species", "type": "nominal", "title": "Species"},
+          {"field": "group", "type": "nominal", "title": "Group"},
+          {"field": "cell_sightings", "type": "quantitative", "title": "Sightings in Bin", "format": ","},
+          {"field": "dist_cbd", "type": "quantitative", "title": "Distance from CBD (km)", "format": ".1f"}
+        ]
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

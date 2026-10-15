@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharing the Suburbs: Victorian Wildlife Visualisation</title>
+  <!-- Vega, Vega-Lite, and Vega-Embed CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main class="poster-container">
+
+    <!-- HERO HEADER -->
+    <header class="poster-header">
+      <div class="poster-kicker">FIT3179 Data Visualisation 2 &bull; Citizen Science Ecological Study</div>
+      <h1>Sharing the Suburbs: How Native &amp; Invasive Wildlife Partition Victoria</h1>
+      <p class="poster-subtitle">
+        An analysis of 52,114 citizen science wildlife observations across Victoria (2020-2026), exploring how 
+        urbanisation gradients, micro-habitats, and 24-hour temporal rhythms shape coexistence between native fauna and introduced competitors.
+      </p>
+
+      <div class="kpi-strip">
+        <div class="kpi-card">
+          <div class="kpi-value">52,114</div>
+          <div class="kpi-label">Verified Sightings (2020-2026)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">8 Species</div>
+          <div class="kpi-label">Across 4 Ecological Groups</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">12.2 km</div>
+          <div class="kpi-label">Indian Myna Median CBD Dist</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">September</div>
+          <div class="kpi-label">Peak Spring Breeding Surge</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: SPATIAL DISTRIBUTION (3 MAP IDIOMS) -->
+    <section class="poster-section">
+      <div class="section-banner">
+        <h2>1. Spatial Distribution: From Statewide Hotspots to Urban Micro-Habitats</h2>
+        <p>Comparing macro-level biodiversity zones across Victoria with high-resolution urban grid density and individual monthly sightings.</p>
+      </div>
+
+      <!-- Top Map Row: Idiom 3 (Proportional Symbol) + Narrative Box -->
+      <div class="grid-story-row">
+        <div class="vis-card">
+          <div id="vis-idiom3" class="vis-container"></div>
+        </div>
+        <div class="narrative-box">
+          <h3>Statewide Biodiversity Corridors</h3>
+          <p>
+            Across Victoria, wildlife observations cluster heavily around Greater Melbourne, the Dandenong Ranges, and the Ballarat-Bendigo corridor. 
+            Using the <strong>Minimum Sightings slider</strong> reveals that zones within 45 km of Melbourne consistently support all 8 target species.
+          </p>
+          <p>
+            <strong>Ecological Groups Tracked:</strong><br>
+            <span class="badge badge-native">Native Bird</span> Magpie, Lorikeet, Noisy Miner, King-Parrot<br>
+            <span class="badge badge-invasive">Invasive Bird</span> Indian Myna, Common Blackbird<br>
+            <span class="badge badge-mammal">Mammal</span> Common Brushtail Possum<br>
+            <span class="badge badge-reptile">Reptile</span> Garden Sunskink
+          </p>
+        </div>
+      </div>
+
+      <!-- Bottom Map Row: Idiom 2 (2D Bin Map) + Idiom 1 (Dot Plot Map) -->
+      <div class="grid-2col">
+        <div class="vis-card">
+          <div id="vis-idiom2" class="vis-container"></div>
+          <p class="caption-text">
+            <strong>Urban Micro-Habitats:</strong> Use the species dropdown above to compare how <em>Australian King-Parrots</em> hug the leafy eastern foothills (Dandenong Ranges) while <em>Indian Mynas</em> and <em>Rainbow Lorikeets</em> saturate the inner suburban grid.
+          </p>
+        </div>
+
+        <div class="vis-card">
+          <div id="vis-idiom1" class="vis-container"></div>
+          <p class="caption-text">
+            <strong>Individual Sightings Explorer:</strong> Adjust the Year and Month sliders to inspect unaggregated point observations across Victoria, such as the September spring breeding peak.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE URBAN SPRAWL GRADIENT (IDIOM 5 + IDIOM 8) -->
+    <section class="poster-section">
+      <div class="section-banner">
+        <h2>2. The Urban Sprawl Gradient: Concrete Adapters vs. Bushland Specialists</h2>
+        <p>How distance from Melbourne's Central Business District (km_cbd) filters wildlife communities across concentric suburban rings.</p>
+      </div>
+
+      <div class="grid-2col">
+        <div class="vis-card">
+          <div id="vis-idiom5" class="vis-container"></div>
+          <p class="caption-text">
+            <strong>Ridgeline Density Profile:</strong> <em>Indian Mynas</em> (median 12.2 km), <em>Noisy Miners</em> (17.7 km), and <em>Rainbow Lorikeets</em> (17.7 km) peak sharply in the inner-to-middle suburbs, whereas <em>Australian King-Parrots</em> (median 36.7 km) peak at the bushland fringe.
+          </p>
+        </div>
+
+        <div class="vis-card">
+          <div id="vis-idiom8" class="vis-container"></div>
+          <p class="caption-text">
+            <strong>Concentric Ring Composition:</strong> Invasive birds claim their highest proportional share in the <strong>Inner Urban (&lt;10 km)</strong> and <strong>Middle Suburbs (10-25 km)</strong> zones, while reptiles and mammals expand their share in the Outer Fringe and Regional Victoria.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: TEMPORAL & SEASONAL RHYTHMS (IDIOM 6, IDIOM 4, IDIOM 7) -->
+    <section class="poster-section">
+      <div class="section-banner">
+        <h2>3. Temporal Partitioning: The 24-Hour Clock, Seasonal Cycles &amp; Multi-Year Growth</h2>
+        <p>Wildlife avoid direct competition by partitioning the 24-hour day and responding to distinct seasonal temperature and breeding cues.</p>
+      </div>
+
+      <div class="grid-2col" style="margin-bottom: 28px;">
+        <div class="vis-card">
+          <div id="vis-idiom6" class="vis-container"></div>
+          <p class="caption-text">
+            <strong>The 24-Hour Shift:</strong> Native birds surge at dawn (8 AM peak: 4,309 sightings), cold-blooded <em>Garden Sunskinks</em> emerge during warm solar noon hours (11 AM - 3 PM), and nocturnal <em>Common Brushtail Possums</em> dominate from 7 PM to 4 AM.
+          </p>
+        </div>
+
+        <div class="vis-card">
+          <div id="vis-idiom4" class="vis-container"></div>
+          <p class="caption-text">
+            <strong>Seasonal Activity Index:</strong> Comparing each species against its own monthly average reveals a sharp winter brumation drop for ectothermic <em>Garden Sunskinks</em> in June-July (0.19&times; typical), followed by aSeptember spring surge across all bird species.
+          </p>
+        </div>
+      </div>
+
+      <!-- Full Width Bottom Row: Idiom 7 (Streamgraph) + Takeaway Box -->
+      <div class="grid-story-row" style="margin-bottom: 0;">
+        <div class="vis-card">
+          <div id="vis-idiom7" class="vis-container"></div>
+        </div>
+        <div class="narrative-box">
+          <h3>The Citizen Science Boom (2020-2026)</h3>
+          <p>
+            Annual wildlife reporting across Victoria expanded nearly five-fold from <strong>2,576 sightings in 2020</strong> to <strong>12,237 sightings in 2025</strong>.
+          </p>
+          <p>
+            <strong>Interactive Tip:</strong> Click any species name in the legend of the streamgraph to isolate its multi-year trajectory. Notice how aggressive urban nectar-feeders (<em>Rainbow Lorikeet</em> and <em>Noisy Miner</em>) and introduced <em>Indian Mynas</em> have grown rapidly alongside expanding suburban development.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="poster-footer">
+      <div>
+        <strong>FIT3179 Data Visualisation 2</strong> &bull; Monash University
+      </div>
+      <div>
+        <strong>Data Sources:</strong> Atlas of Living Australia (ALA) / iNaturalist Citizen Science Records &amp; Australian Bureau of Statistics (ABS) LGA Boundaries (GDA2020)
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- VEGA-EMBED SCRIPT -->
+  <script>
+    const embedOptions = { actions: false, renderer: "canvas" };
+
+    vegaEmbed('#vis-idiom1', 'idiom1_dotplot.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom2', 'idiom2_bin_map.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom3', 'idiom3_proportional_symbol_map.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom4', 'idiom4_seasonal_heatmap.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom5', 'idiom5_ridgeline.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom6', 'idiom6_radial_clock.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom7', 'idiom7_streamgraph_trends.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom8', 'idiom8_marimeko_urban_zones.json', embedOptions).catch(console.error);
+  </script>
+
+</body>
+</html>

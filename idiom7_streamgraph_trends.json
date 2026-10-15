@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "The Citizen Science Boom: Wildlife Observation Growth (2020-2026)",
+    "subtitle": "Streamgraph of annual sightings by species (Click any species in the legend to highlight its trajectory)",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "width": 600,
+  "height": 340,
+  "data": {"url": "data/sightings.csv"},
+  "params": [
+    {
+      "name": "species_highlight",
+      "select": {"type": "point", "fields": ["species"]},
+      "bind": "legend"
+    }
+  ],
+  "transform": [
+    {
+      "aggregate": [{"op": "count", "as": "annual_sightings"}],
+      "groupby": ["year", "species", "group"]
+    }
+  ],
+  "mark": {
+    "type": "area",
+    "interpolate": "monotone",
+    "stroke": "#ffffff",
+    "strokeWidth": 0.6
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Observation Year",
+      "axis": {"labelAngle": 0}
+    },
+    "y": {
+      "field": "annual_sightings",
+      "type": "quantitative",
+      "stack": "center",
+      "axis": null
+    },
+    "color": {
+      "field": "species",
+      "type": "nominal",
+      "title": "Species (Click to Highlight)",
+      "scale": {"scheme": "tableau10"}
+    },
+    "opacity": {
+      "condition": {"param": "species_highlight", "value": 0.95},
+      "value": 0.2
+    },
+    "tooltip": [
+      {"field": "species", "type": "nominal", "title": "Species"},
+      {"field": "group", "type": "nominal", "title": "Ecological Group"},
+      {"field": "year", "type": "ordinal", "title": "Year"},
+      {"field": "annual_sightings", "type": "quantitative", "title": "Annual Sightings", "format": ","}
+    ]
+  },
+  "config": {"view": {"stroke": "transparent"}}
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Community Composition Across Melbourne's Urbanization Rings",
+    "subtitle": "Proportion of wildlife sightings by ecological group across concentric distance zones from Melbourne CBD",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "width": 560,
+  "height": 300,
+  "data": {"url": "data/sightings.csv"},
+  "transform": [
+    {"calculate": "toNumber(datum.km_cbd)", "as": "dist"},
+    {
+      "calculate": "datum.dist < 10 ? '1. Inner Urban (<10 km)' : datum.dist < 25 ? '2. Middle Suburbs (10-25 km)' : datum.dist < 50 ? '3. Outer Fringe (25-50 km)' : '4. Regional Victoria (>50 km)'",
+      "as": "urban_zone"
+    },
+    {
+      "aggregate": [{"op": "count", "as": "zone_sightings"}],
+      "groupby": ["urban_zone", "group"]
+    },
+    {
+      "joinaggregate": [{"op": "sum", "field": "zone_sightings", "as": "total_in_zone"}],
+      "groupby": ["urban_zone"]
+    },
+    {
+      "calculate": "datum.zone_sightings / datum.total_in_zone * 100",
+      "as": "pct_share"
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "cornerRadius": 2,
+    "stroke": "#ffffff",
+    "strokeWidth": 1
+  },
+  "encoding": {
+    "y": {
+      "field": "urban_zone",
+      "type": "ordinal",
+      "title": "Urbanization Zone (Distance from CBD)",
+      "sort": [
+        "1. Inner Urban (<10 km)",
+        "2. Middle Suburbs (10-25 km)",
+        "3. Outer Fringe (25-50 km)",
+        "4. Regional Victoria (>50 km)"
+      ]
+    },
+    "x": {
+      "field": "zone_sightings",
+      "type": "quantitative",
+      "stack": "normalize",
+      "title": "Share of Total Sightings in Zone",
+      "axis": {"format": "%"}
+    },
+    "color": {
+      "field": "group",
+      "type": "nominal",
+      "title": "Ecological Group",
+      "scale": {
+        "domain": ["Native bird", "Invasive bird", "Mammal", "Reptile"],
+        "range": ["#0284c7", "#dc2626", "#7c3aed", "#d97706"]
+      }
+    },
+    "tooltip": [
+      {"field": "urban_zone", "type": "nominal", "title": "Urban Zone"},
+      {"field": "group", "type": "nominal", "title": "Ecological Group"},
+      {"field": "pct_share", "type": "quantitative", "title": "Share of Zone (%)", "format": ".1f"},
+      {"field": "zone_sightings", "type": "quantitative", "title": "Sightings in Zone", "format": ","},
+      {"field": "total_in_zone", "type": "quantitative", "title": "Total Zone Sightings", "format": ","}
+    ]
+  },
+  "config": {"view": {"stroke": "transparent"}}
+}
