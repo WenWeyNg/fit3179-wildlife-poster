@@ -1,4 +1,4 @@
-/* styles.css - Victorian Suburban Wildlife Poster */
+/* styles.css - Updated for Responsive Vega Scaling */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap');
 
 :root {
@@ -31,7 +31,7 @@ body {
 
 /* Main Poster Container */
 .poster-container {
-  max-width: 1320px;
+  max-width: 1400px;
   margin: 0 auto;
   background-color: var(--bg-poster);
   border-radius: 12px;
@@ -65,7 +65,7 @@ body {
 }
 
 .poster-subtitle {
-  max-width: 880px;
+  max-width: 920px;
   margin: 0 auto 28px;
   font-size: 1.05rem;
   color: #cbd5e1;
@@ -77,7 +77,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
-  max-width: 1050px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -104,7 +104,7 @@ body {
 
 /* Section Styling */
 .poster-section {
-  padding: 36px 44px;
+  padding: 36px 48px;
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -134,13 +134,9 @@ body {
   align-items: start;
 }
 
-.grid-full {
-  margin-bottom: 28px;
-}
-
 .grid-story-row {
   display: grid;
-  grid-template-columns: 1.85fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   gap: 28px;
   align-items: center;
   margin-bottom: 28px;
@@ -156,13 +152,20 @@ body {
   flex-direction: column;
   align-items: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
 }
 
 .vis-container {
   width: 100%;
   display: flex;
   justify-content: center;
-  overflow-x: auto;
+}
+
+/* CRITICAL FIX: Forces Vega charts to fit their grid boxes automatically */
+.vis-container canvas,
+.vis-container svg {
+  max-width: 100% !important;
+  height: auto !important;
 }
 
 /* Narrative Callout Box */
@@ -171,6 +174,10 @@ body {
   border-radius: 10px;
   padding: 24px;
   border-top: 4px solid var(--accent-teal);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .narrative-box h3 {
@@ -208,7 +215,7 @@ body {
 .badge-mammal { background-color: var(--accent-purple); }
 .badge-reptile { background-color: var(--accent-amber); }
 
-/* Vega Bindings (Sliders & Dropdowns) Styling */
+/* Vega Bindings */
 .vega-bindings {
   margin-top: 10px;
   font-size: 0.85rem;
@@ -229,7 +236,7 @@ body {
 .poster-footer {
   background-color: var(--primary-dark);
   color: #94a3b8;
-  padding: 24px 44px;
+  padding: 24px 48px;
   font-size: 0.84rem;
   display: flex;
   justify-content: space-between;

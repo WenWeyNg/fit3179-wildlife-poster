@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 500,
+  "title": {
+    "text": "The Territorial Battle: Native vs. Invasive Birds",
+    "subtitle": "Mapping urban sightings of the native Noisy Miner against the invasive Indian Myna.",
+    "fontSize": 16,
+    "subtitleFontSize": 12,
+    "anchor": "start",
+    "offset": 10
+  },
+  "projection": {
+    "type": "mercator",
+    "scale": 4500,
+    "center": [145, -36.5]
+  },
+  "params": [
+    {
+      "name": "Species_Filter",
+      "bind": {
+        "input": "select",
+        "options": [null, "Noisy Miner", "Indian Myna"],
+        "labels": ["Show Both", "Native: Noisy Miner", "Invasive: Indian Myna"],
+        "name": "Select Species: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "data/vic_boundaries.geojson"
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e9ecef",
+        "stroke": "#ffffff",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "data/sightings.csv"
+      },
+      "transform": [
+        {"filter": "datum.species == 'Noisy Miner' || datum.species == 'Indian Myna'"},
+        {"filter": "Species_Filter == null || datum.species == Species_Filter"}
+      ],
+      "mark": {"type": "circle", "size": 25, "opacity": 0.6},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "color": {
+          "field": "species",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Noisy Miner", "Indian Myna"],
+            "range": ["#1b9e77", "#d95f02"]
+          },
+          "title": "Bird Species"
+        },
+        "tooltip": [
+          {"field": "species", "type": "nominal", "title": "Species"},
+          {"field": "group", "type": "nominal", "title": "Category"},
+          {"field": "month", "type": "ordinal", "title": "Month Sighted"},
+          {"field": "year", "type": "ordinal", "title": "Year"}
+        ]
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"}
+  }
+}

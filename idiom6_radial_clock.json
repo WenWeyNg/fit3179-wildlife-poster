@@ -7,8 +7,8 @@
     "subtitleFontSize": 12,
     "anchor": "start"
   },
-  "width": 460,
-  "height": 460,
+  "width": 380,
+  "height": 380,
   "data": {"url": "data/sightings.csv"},
   "params": [
     {

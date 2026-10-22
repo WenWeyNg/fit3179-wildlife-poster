@@ -42,7 +42,7 @@
     }
   },
   "spec": {
-    "width": 520,
+    "width": 460,
     "height": 42,
     "mark": {
       "type": "area",

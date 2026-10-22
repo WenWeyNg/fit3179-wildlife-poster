@@ -7,13 +7,13 @@
     "subtitleFontSize": 12,
     "anchor": "start"
   },
-  "width": 650,
+  "width": 520,
   "height": 480,
   "background": "#f8fafc",
   "projection": {
     "type": "mercator",
     "center": [145.02, -37.88],
-    "scale": 21000
+    "scale": 17000
   },
   "params": [
     {
