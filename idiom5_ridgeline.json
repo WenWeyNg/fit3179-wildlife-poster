@@ -1,14 +1,36 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "The Urban Sprawl Gradient: Distance from Melbourne CBD by Species",
-    "subtitle": "Ridgeline density distribution of sightings from 0 km (Melbourne CBD) to 80 km (Outer Peri-Urban Fringe)",
+    "text": "Urban Sprawl Gradient by Wildlife Species",
+    "subtitle": "Sighting density by distance from capital CBD (km)",
     "fontSize": 15,
     "subtitleFontSize": 12,
     "anchor": "start"
   },
   "data": {"url": "data/sightings.csv"},
+  "params": [
+    {
+      "name": "state_select",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "ACT"],
+        "labels": [
+          "All Australia",
+          "New South Wales (Sydney)",
+          "Victoria (Melbourne)",
+          "Queensland (Brisbane)",
+          "South Australia (Adelaide)",
+          "Western Australia (Perth)",
+          "Tasmania (Hobart)",
+          "ACT (Canberra)"
+        ],
+        "name": "Filter Capital Region: "
+      }
+    }
+  ],
   "transform": [
+    {"filter": "state_select == 'All' || datum.state_abbr == state_select"},
     {"calculate": "toNumber(datum.km_cbd)", "as": "dist"},
     {"filter": "datum.dist <= 80"},
     {
@@ -24,30 +46,31 @@
       "type": "nominal",
       "sort": [
         "Indian Myna",
+        "Grey-headed Flying-fox",
         "Rainbow Lorikeet",
         "Noisy Miner",
-        "Australian Magpie",
-        "Australian King-Parrot",
         "Common Brushtail Possum",
+        "Australian Magpie",
         "Common Blackbird",
-        "Garden Sunskink"
+        "Garden Sunskink",
+        "Australian King-Parrot"
       ],
       "title": null,
       "header": {
         "labelAngle": 0,
         "labelAlign": "left",
-        "labelFontSize": 12,
+        "labelFontSize": 11,
         "labelFontWeight": "bold"
       }
     }
   },
   "spec": {
-    "width": 460,
-    "height": 42,
+    "width": 360,
+    "height": 34,
     "mark": {
       "type": "area",
       "interpolate": "monotone",
-      "fillOpacity": 0.75,
+      "fillOpacity": 0.78,
       "stroke": "#1e293b",
       "strokeWidth": 1.2
     },
@@ -55,14 +78,14 @@
       "x": {
         "field": "value",
         "type": "quantitative",
-        "title": "Distance from Melbourne CBD (km)",
+        "title": "Distance from Capital CBD (km)",
         "scale": {"domain": [0, 80]}
       },
       "y": {
         "field": "density",
         "type": "quantitative",
         "axis": null,
-        "scale": {"range": [42, -18]}
+        "scale": {"range": [34, 2]}
       },
       "color": {
         "field": "group",
@@ -81,8 +104,11 @@
       ]
     }
   },
+  "resolve": {
+    "scale": {"y": "independent"}
+  },
   "bounds": "flush",
-  "spacing": 0,
+  "spacing": 6,
   "config": {
     "view": {"stroke": "transparent"},
     "axisX": {"grid": true, "gridOpacity": 0.3}

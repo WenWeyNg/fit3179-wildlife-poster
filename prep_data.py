@@ -1,14 +1,32 @@
 """
-prep_data.py  -  combine the nine species files into ONE small CSV for Vega-Lite.
-Run from the project root:  python prep_data.py
-Needs: pip install pandas numpy geopandas
+prep_data.py - Builds Australia-wide data/sightings.csv (all 8 states, 9 species)
+and data/state_sightings.csv, and fixes GeoJSON winding order.
 """
-import glob, os
+import glob
+import os
+import json
 import numpy as np
 import pandas as pd
-import geopandas as gpd
 
-# file name (without _data.csv / .csv)  ->  (nice name, group)
+def fix_winding_order(filepath):
+    if not os.path.exists(filepath):
+        return
+    with open(filepath, "r") as f:
+        data = json.load(f)
+    geoms = data["geometries"] if "geometries" in data else [feat["geometry"] for feat in data["features"]]
+    for g in geoms:
+        if g["type"] == "Polygon":
+            g["coordinates"] = [ring[::-1] for ring in g["coordinates"]]
+        elif g["type"] == "MultiPolygon":
+            g["coordinates"] = [[ring[::-1] for ring in poly] for poly in g["coordinates"]]
+    fixed_path = filepath.replace(".min.json", "-fixed.json").replace(".json", "-fixed.json")
+    with open(fixed_path, "w") as f:
+        json.dump(data, f)
+    print(f"Saved fixed map: {fixed_path}")
+
+fix_winding_order("data/australian-states.min.json")
+fix_winding_order("data/LGA_2025_AUST_GDA2020.json")
+
 SPECIES = {
     "australian_magpie":        ("Australian Magpie",        "Native bird"),
     "australian_king_parrot":   ("Australian King-Parrot",   "Native bird"),
@@ -20,65 +38,65 @@ SPECIES = {
     "grey_headed_flying_fox":   ("Grey-headed Flying-fox",   "Mammal"),
     "garden_sunskink":          ("Garden Sunskink",          "Reptile"),
 }
-CBD = (-37.8136, 144.9631)   # Melbourne GPO / CBD
 
-def km_from_cbd(lat, lon):
-    la, lo = np.radians(lat), np.radians(lon)
-    la0, lo0 = np.radians(CBD[0]), np.radians(CBD[1])
-    a = np.sin((la - la0) / 2) ** 2 + np.cos(la) * np.cos(la0) * np.sin((lo - lo0) / 2) ** 2
-    return 12742 * np.arcsin(np.sqrt(a))
+STATE_ABBR = {
+    "New South Wales": "NSW", "Victoria": "VIC", "Queensland": "QLD",
+    "South Australia": "SA", "Western Australia": "WA", "Tasmania": "TAS",
+    "Northern Territory": "NT", "Australian Capital Territory": "ACT",
+}
+
+CAPITALS = {
+    "NSW": (-33.8688, 151.2093), "VIC": (-37.8136, 144.9631), "QLD": (-27.4705, 153.0260),
+    "SA":  (-34.9285, 138.6007), "WA":  (-31.9505, 115.8605), "TAS": (-42.8821, 147.3272),
+    "NT":  (-12.4634, 130.8456), "ACT": (-35.2809, 149.1300),
+}
 
 frames = []
-for path in glob.glob("data/*.csv"):
-    key = os.path.basename(path).replace("_data.csv", "").replace(".csv", "")
+for path in sorted(glob.glob("data/*.csv")):
+    raw_name = os.path.basename(path).replace("_data.csv", "").replace(".csv", "")
+    key = raw_name.replace("-", "_")
     if key not in SPECIES:
         continue
     name, group = SPECIES[key]
     d = pd.read_csv(path)
-    
-    # IMPORTANT: the 'Z' on eventDate is misleading - the clock time is already LOCAL time
-    # (skinks peak ~12 noon, possums ~9pm). So do NOT convert time zones.
-    t = pd.to_datetime(d["eventDate"], utc=True)
-    d["hour"] = t.dt.hour
-    d["has_time"] = ~((t.dt.hour == 0) & (t.dt.minute == 0))   # 00:00 = date only, no real time
+
+    t = pd.to_datetime(d["eventDate"], utc=True, errors="coerce")
+    d["hour"] = t.dt.hour.fillna(0).astype(int)
+    d["has_time"] = ~((t.dt.hour == 0) & (t.dt.minute == 0))
     d["species"], d["group"] = name, group
-    d["lat"] = d["decimalLatitude"].round(3)       # ~100 m, hides exact backyards, shrinks file
+
+    if "stateProvince" in d.columns:
+        d["stateProvince"] = d["stateProvince"].astype(str).str.strip()
+    else:
+        d["stateProvince"] = "Victoria"
+
+    d = d[d["stateProvince"].isin(STATE_ABBR.keys())].copy()
+    d["state_abbr"] = d["stateProvince"].map(STATE_ABBR)
+    d["lat"] = d["decimalLatitude"].round(3)
     d["lon"] = d["decimalLongitude"].round(3)
-    d["km_cbd"] = km_from_cbd(d["lat"], d["lon"]).round(1)
-    frames.append(d[["species", "group", "year", "month", "hour", "has_time", "lat", "lon", "km_cbd"]])
-    print(f"{name:26s}{len(d):6d} rows")
 
-out = pd.concat(frames, ignore_index=True)
+    cap_lats = d["state_abbr"].map(lambda x: CAPITALS[x][0])
+    cap_lons = d["state_abbr"].map(lambda x: CAPITALS[x][1])
+    la1, lo1 = np.radians(d["lat"]), np.radians(d["lon"])
+    la2, lo2 = np.radians(cap_lats), np.radians(cap_lons)
+    a = np.sin((la2 - la1) / 2) ** 2 + np.cos(la1) * np.cos(la2) * np.sin((lo2 - lo1) / 2) ** 2
+    d["km_cbd"] = (12742 * np.arcsin(np.sqrt(a))).round(1)
 
-# ---- STEP 2: Join to LGA boundaries using GeoPandas -------------------------
-print("\nLoading ABS Shapefile to calculate LGA boundaries...")
+    cols = ["species", "group", "stateProvince", "state_abbr", "year", "month", "hour", "has_time", "lat", "lon", "km_cbd"]
+    frames.append(d[cols])
+    print(f"{name:26s}: {len(d):7,d} Australia-wide rows")
 
-# Load the downloaded ABS LGA shapefile
-# Ensure LGA_2025_AUST_GDA2020.shp is in the same directory you run the script from
-lga = gpd.read_file("LGA_2025_AUST_GDA2020.shp")
+out_all = pd.concat(frames, ignore_index=True)
 
-# Filter strictly for Victoria (State Code '2' in the ABS structure)
-# The column name might vary slightly depending on the ABS export year, usually 'STE_NAME21' or 'STE_NAME25'
-state_col = [col for col in lga.columns if 'STE_NAME' in col][0]
-vic_lga = lga[lga[state_col] == 'Victoria'].copy()
+# Save ALL Australia sightings to data/sightings.csv
+out_all.to_csv("data/sightings.csv", index=False)
+print(f"Saved data/sightings.csv: {len(out_all):,d} rows")
 
-# Convert our wildlife CSV data into a spatial GeoDataFrame using lat/lon
-pts = gpd.GeoDataFrame(
-    out, 
-    geometry=gpd.points_from_xy(out.lon, out.lat), 
-    crs="EPSG:4326" # Standard GPS coordinates
+# Save pre-aggregated state_sightings.csv
+state_summary = (
+    out_all.groupby(["stateProvince", "state_abbr", "species", "group", "year", "month"])
+    .size()
+    .reset_index(name="sightings")
 )
-
-# Transform the points to match the shapefile's Coordinate Reference System (GDA2020)
-pts = pts.to_crs(vic_lga.crs)
-
-# Perform the Spatial Join: which polygon does each point fall inside?
-lga_code_col = [col for col in vic_lga.columns if 'LGA_CODE' in col][0]
-joined = gpd.sjoin(pts, vic_lga[[lga_code_col, "geometry"]], predicate="within", how="left")
-
-# Assign the resulting ABS LGA Code back to our main dataset
-out["lga_code"] = joined[lga_code_col]
-
-# Save the final consolidated file
-out.to_csv("sightings.csv", index=False)
-print("\nsightings.csv saved:", len(out), "rows,", round(os.path.getsize("sightings.csv") / 1e6, 2), "MB")
+state_summary.to_csv("data/state_sightings.csv", index=False)
+print(f"Saved data/state_sightings.csv: {len(state_summary):,d} rows")

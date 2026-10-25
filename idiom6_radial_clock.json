@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "The 24-Hour Suburban Shift: Diurnal vs. Nocturnal Wildlife Activity",
-    "subtitle": "Radial clock distribution of sightings by hour of day (00:00 to 23:00), filtered to records with verified timestamps",
+    "text": "The 24-Hour Australian Shift: Diurnal vs. Nocturnal Activity",
+    "subtitle": "Radial clock distribution of nationwide sightings by hour of day (00:00 to 23:00)",
     "fontSize": 15,
     "subtitleFontSize": 12,
     "anchor": "start"
@@ -17,7 +17,13 @@
       "bind": {
         "input": "select",
         "options": ["All", "Native bird", "Invasive bird", "Mammal", "Reptile"],
-        "labels": ["All Ecological Groups", "Native Bird", "Invasive Bird", "Mammal (Possum)", "Reptile (Sunskink)"],
+        "labels": [
+          "All Ecological Groups",
+          "Native Bird",
+          "Invasive Bird",
+          "Mammal (Possum & Flying-fox)",
+          "Reptile (Garden Sunskink)"
+        ],
         "name": "Filter Ecological Group: "
       }
     }
@@ -50,7 +56,7 @@
         "radius": {
           "field": "hourly_sightings",
           "type": "quantitative",
-          "scale": {"type": "sqrt", "zero": true, "rangeMin": 25, "rangeMax": 200},
+          "scale": {"type": "sqrt", "zero": true, "rangeMin": 25, "rangeMax": 175},
           "title": "Sightings"
         },
         "color": {
@@ -65,15 +71,15 @@
         "tooltip": [
           {"field": "group", "type": "nominal", "title": "Ecological Group"},
           {"field": "hour_num", "type": "ordinal", "title": "Hour of Day (24h)"},
-          {"field": "hourly_sightings", "type": "quantitative", "title": "Total Sightings", "format": ","}
+          {"field": "hourly_sightings", "type": "quantitative", "title": "Nationwide Sightings", "format": ","}
         ]
       }
     },
     {
       "mark": {
         "type": "text",
-        "radius": 215,
-        "fontSize": 11,
+        "radius": 188,
+        "fontSize": 10,
         "fontWeight": "bold",
         "color": "#334155"
       },

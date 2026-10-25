@@ -1,0 +1,124 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Interstate Biogeography: Wildlife Dominance Across Australia",
+    "subtitle": "Circle size shows each species' relative share (%) of state sightings; colour indicates ecological group",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "width": 460,
+  "height": 330,
+  "data": {"url": "data/state_sightings.csv"},
+  "params": [
+    {
+      "name": "year_filter",
+      "value": 0,
+      "bind": {
+        "input": "select",
+        "options": [0, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+        "labels": ["All Years (2020-2026)", "2020", "2021", "2022", "2023", "2024", "2025", "2026"],
+        "name": "Filter Observation Year: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "year_filter == 0 || datum.year == year_filter"},
+    {
+      "aggregate": [
+        {"op": "sum", "field": "sightings", "as": "species_state_count"}
+      ],
+      "groupby": ["stateProvince", "state_abbr", "species", "group"]
+    },
+    {
+      "joinaggregate": [
+        {"op": "sum", "field": "species_state_count", "as": "state_total"}
+      ],
+      "groupby": ["state_abbr"]
+    },
+    {
+      "calculate": "(datum.species_state_count / datum.state_total) * 100",
+      "as": "state_share_pct"
+    },
+    {"filter": "datum.species_state_count > 0"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "state_abbr",
+      "type": "ordinal",
+      "title": "Australian State / Territory",
+      "sort": ["VIC", "NSW", "QLD", "SA", "ACT", "WA", "TAS", "NT"],
+      "axis": {"labelAngle": 0, "labelFontWeight": "bold", "orient": "top"}
+    },
+    "y": {
+      "field": "species",
+      "type": "nominal",
+      "title": null,
+      "sort": [
+        "Australian Magpie",
+        "Rainbow Lorikeet",
+        "Noisy Miner",
+        "Australian King-Parrot",
+        "Common Blackbird",
+        "Indian Myna",
+        "Common Brushtail Possum",
+        "Grey-headed Flying-fox",
+        "Garden Sunskink"
+      ]
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "opacity": 0.85,
+        "stroke": "#0f172a",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "size": {
+          "field": "state_share_pct",
+          "type": "quantitative",
+          "title": "Share of State (%)",
+          "scale": {"type": "sqrt", "domain": [0, 80], "range": [15, 900]}
+        },
+        "color": {
+          "field": "group",
+          "type": "nominal",
+          "title": "Ecological Group",
+          "scale": {
+            "domain": ["Native bird", "Invasive bird", "Mammal", "Reptile"],
+            "range": ["#0284c7", "#dc2626", "#7c3aed", "#d97706"]
+          }
+        },
+        "tooltip": [
+          {"field": "stateProvince", "type": "nominal", "title": "State / Territory"},
+          {"field": "species", "type": "nominal", "title": "Species"},
+          {"field": "group", "type": "nominal", "title": "Ecological Group"},
+          {"field": "state_share_pct", "type": "quantitative", "title": "Share of State Sightings (%)", "format": ".1f"},
+          {"field": "species_state_count", "type": "quantitative", "title": "Species Sightings", "format": ","},
+          {"field": "state_total", "type": "quantitative", "title": "Total State Sightings", "format": ","}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.state_share_pct >= 18"}
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 9,
+        "fontWeight": "bold",
+        "color": "#ffffff",
+        "dy": 1
+      },
+      "encoding": {
+        "text": {"field": "state_share_pct", "type": "quantitative", "format": ".0f"}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "#e2e8f0"},
+    "axis": {"grid": true, "gridColor": "#f1f5f9"}
+  }
+}

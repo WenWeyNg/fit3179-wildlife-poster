@@ -1,66 +1,60 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Proportional Symbol Map: Wildlife Observation Volume Across Victoria",
-    "subtitle": "Circle size is directly proportional to total sightings; colour shows species richness per ~20km zone",
+    "text": "National Biodiversity Hotspots Across Australia",
+    "subtitle": "Circle size shows total citizen science sightings; colour reveals species richness per ~50km zone",
     "fontSize": 15,
     "subtitleFontSize": 12,
     "anchor": "start"
   },
-  "width": 700,
+  "width": 540,
   "height": 450,
   "background": "#f8fafc",
   "projection": {
     "type": "mercator",
-    "center": [145.4, -36.6],
-    "scale": 4200
+    "center": [133.5, -28.0],
+    "scale": 700
   },
   "params": [
     {
-      "name": "min_sightings",
-      "value": 20,
-      "bind": {
-        "input": "range",
-        "min": 5,
-        "max": 200,
-        "step": 5,
-        "name": "Minimum Sightings in Zone: "
-      }
+      "name": "min_species",
+      "value": 2,
+      "bind": {"input": "range", "min": 1, "max": 9, "step": 1, "name": "Min Species: "}
     }
   ],
   "layer": [
     {
       "data": {
-        "url": "data/LGA_2025_AUST_GDA2020.json",
-        "format": {"type": "json", "property": "geometries"}
+        "url": "data/australian-states-fixed.json",
+        "format": {"type": "json", "property": "features"}
       },
       "mark": {
         "type": "geoshape",
-        "fill": null,
-        "stroke": "#94a3b8",
+        "fill": "#f1f5f9",
+        "stroke": "#cbd5e1",
         "strokeWidth": 0.8
       }
     },
     {
       "data": {"url": "data/sightings.csv"},
       "transform": [
-        {"calculate": "round(datum.lat * 5) / 5", "as": "lat_zone"},
-        {"calculate": "round(datum.lon * 5) / 5", "as": "lon_zone"},
+        {"calculate": "round(datum.lat * 2) / 2", "as": "lat_zone"},
+        {"calculate": "round(datum.lon * 2) / 2", "as": "lon_zone"},
         {
           "aggregate": [
             {"op": "count", "as": "total_sightings"},
-            {"op": "distinct", "field": "species", "as": "species_richness"},
-            {"op": "mean", "field": "km_cbd", "as": "avg_km_cbd"}
+            {"op": "distinct", "field": "species", "as": "species_richness"}
           ],
-          "groupby": ["lat_zone", "lon_zone"]
+          "groupby": ["lat_zone", "lon_zone", "state_abbr"]
         },
-        {"filter": "datum.total_sightings >= min_sightings"}
+        {"filter": "datum.total_sightings >= 10"},
+        {"filter": "datum.species_richness >= min_species"}
       ],
       "mark": {
         "type": "circle",
-        "opacity": 0.85,
+        "opacity": 0.75,
         "stroke": "#0f172a",
-        "strokeWidth": 0.8
+        "strokeWidth": 0.6
       },
       "encoding": {
         "longitude": {"field": "lon_zone", "type": "quantitative"},
@@ -69,18 +63,18 @@
           "field": "total_sightings",
           "type": "quantitative",
           "title": "Total Sightings",
-          "scale": {"type": "sqrt", "range": [30, 1400]}
+          "scale": {"type": "sqrt", "range": [15, 1200]}
         },
         "color": {
           "field": "species_richness",
-          "type": "quantitative",
-          "title": "Species Count",
+          "type": "ordinal",
+          "title": "Species Richness",
           "scale": {"scheme": "viridis"}
         },
         "tooltip": [
-          {"field": "total_sightings", "type": "quantitative", "title": "Total Sightings", "format": ","},
-          {"field": "species_richness", "type": "quantitative", "title": "Unique Species Present"},
-          {"field": "avg_km_cbd", "type": "quantitative", "title": "Distance to CBD (km)", "format": ".1f"}
+          {"field": "state_abbr", "type": "nominal", "title": "State"},
+          {"field": "species_richness", "type": "quantitative", "title": "Coexisting Target Species"},
+          {"field": "total_sightings", "type": "quantitative", "title": "Total Sightings", "format": ","}
         ]
       }
     }

@@ -1,28 +1,90 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Seasonality heatmap: each species' sightings per month compared with its own typical month",
-  "data": {"url": "data/sightings.csv"},
-  "transform": [
-    {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["species", "group", "month"]},
-    {"joinaggregate": [{"op": "mean", "field": "n", "as": "typical"}], "groupby": ["species"]},
-    {"calculate": "datum.n / datum.typical", "as": "index"},
-    {"calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.month-1]", "as": "mon"}
+  "title": {
+    "text": "Seasonal Rhythms Across Australia: Monthly Activity vs. Typical Average",
+    "subtitle": "Each cell compares monthly sightings against that species' own monthly average (1.0 = typical month)",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "width": 440,
+  "height": {"step": 32},
+  "data": {"url": "data/state_sightings.csv"},
+  "params": [
+    {
+      "name": "state_select",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "ACT", "NT"],
+        "labels": ["All Australia", "New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "ACT", "Northern Territory"],
+        "name": "Filter by State: "
+      }
+    }
   ],
-  "width": 480, "height": {"step": 34},
-  "mark": {"type": "rect", "stroke": "#fff", "strokeWidth": 1.5},
+  "transform": [
+    {"filter": "state_select == 'All' || datum.state_abbr == state_select"},
+    {
+      "aggregate": [{"op": "sum", "field": "sightings", "as": "n"}],
+      "groupby": ["species", "group", "month"]
+    },
+    {
+      "joinaggregate": [{"op": "mean", "field": "n", "as": "typical"}],
+      "groupby": ["species"]
+    },
+    {"calculate": "datum.n / datum.typical", "as": "index"},
+    {
+      "calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.month - 1]",
+      "as": "mon"
+    }
+  ],
+  "mark": {"type": "rect", "stroke": "#ffffff", "strokeWidth": 1.5, "cornerRadius": 2},
   "encoding": {
-    "x": {"field": "mon", "type": "ordinal", "title": null, "axis": {"orient": "top", "labelAngle": 0},
-          "sort": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
-    "y": {"field": "species", "type": "nominal", "title": null, "sort": {"field": "group"}},
-    "color": {"field": "index", "type": "quantitative",
-              "title": ["Sightings vs a typical month", "(1 = typical)"],
-              "scale": {"scheme": "purpleorange", "domainMid": 1, "domain": [0.2, 1.8], "clamp": true, "reverse": true}},
+    "x": {
+      "field": "mon",
+      "type": "ordinal",
+      "title": null,
+      "axis": {"orient": "top", "labelAngle": 0, "labelFontWeight": "bold"},
+      "sort": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    },
+    "y": {
+      "field": "species",
+      "type": "nominal",
+      "title": null,
+      "sort": [
+        "Australian Magpie",
+        "Rainbow Lorikeet",
+        "Noisy Miner",
+        "Australian King-Parrot",
+        "Common Blackbird",
+        "Indian Myna",
+        "Common Brushtail Possum",
+        "Grey-headed Flying-fox",
+        "Garden Sunskink"
+      ]
+    },
+    "color": {
+      "field": "index",
+      "type": "quantitative",
+      "title": ["Vs. Typical", "(1.0 = Avg)"],
+      "scale": {
+        "scheme": "purpleorange",
+        "domainMid": 1,
+        "domain": [0.2, 1.8],
+        "clamp": true,
+        "reverse": true
+      }
+    },
     "tooltip": [
       {"field": "species", "title": "Species"},
+      {"field": "group", "title": "Ecological Group"},
       {"field": "mon", "title": "Month"},
-      {"field": "n", "title": "Sightings (all years)"},
-      {"field": "index", "title": "Vs typical month", "format": ".2f"}
+      {"field": "n", "title": "Total Sightings", "format": ","},
+      {"field": "index", "title": "Ratio vs. Typical Month", "format": ".2f"}
     ]
   },
-  "config": {"view": {"stroke": null}, "axis": {"domain": false, "ticks": false}}
+  "config": {
+    "view": {"stroke": null},
+    "axis": {"domain": false, "ticks": false}
+  }
 }

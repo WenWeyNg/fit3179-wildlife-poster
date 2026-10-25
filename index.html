@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sharing the Suburbs: Victorian Wildlife Visualisation</title>
-  <!-- Vega, Vega-Lite, and Vega-Embed CDNs -->
+  <title>Sharing the Suburbs: Australian Wildlife Coexistence</title>
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
@@ -14,27 +13,26 @@
 
   <main class="poster-container">
 
-    <!-- HERO HEADER -->
+    <!-- HERO HEADER (Every text block <= 10 words) -->
     <header class="poster-header">
-      <div class="poster-kicker">FIT3179 Data Visualisation 2 &bull; Citizen Science Ecological Study</div>
-      <h1>Sharing the Suburbs: How Native &amp; Invasive Wildlife Partition Victoria</h1>
+      <div class="poster-kicker">FIT3179 Data Visualisation 2 &bull; Citizen Science Study</div>
+      <h1>Sharing the Suburbs: Australian Wildlife Coexistence</h1>
       <p class="poster-subtitle">
-        An analysis of 52,114 citizen science wildlife observations across Victoria (2020-2026), exploring how 
-        urbanisation gradients, micro-habitats, and 24-hour temporal rhythms shape coexistence between native fauna and introduced competitors.
+        Analyzing 140,331 wildlife sightings across eight Australian states.
       </p>
 
       <div class="kpi-strip">
         <div class="kpi-card">
-          <div class="kpi-value">52,114</div>
-          <div class="kpi-label">Verified Sightings (2020-2026)</div>
+          <div class="kpi-value">140,331</div>
+          <div class="kpi-label">Verified Wildlife Sightings</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-value">8 Species</div>
-          <div class="kpi-label">Across 4 Ecological Groups</div>
+          <div class="kpi-value">9 Species</div>
+          <div class="kpi-label">Four Ecological Groups</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-value">12.2 km</div>
-          <div class="kpi-label">Indian Myna Median CBD Dist</div>
+          <div class="kpi-value">8 States</div>
+          <div class="kpi-label">Nationwide Spatial Coverage</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-value">September</div>
@@ -43,140 +41,187 @@
       </div>
     </header>
 
-    <!-- SECTION 1: SPATIAL DISTRIBUTION (3 MAP IDIOMS) -->
+    <!-- SECTION 1: SPATIAL DISTRIBUTION -->
     <section class="poster-section">
       <div class="section-banner">
-        <h2>1. Spatial Distribution: From Statewide Hotspots to Urban Micro-Habitats</h2>
-        <p>Comparing macro-level biodiversity zones across Victoria with high-resolution urban grid density and individual monthly sightings.</p>
+        <h2>1. Spatial Distribution Across Australia</h2>
+        <p>Comparing national biodiversity zones with urban micro-habitats.</p>
       </div>
 
-      <!-- Top Map Row: Idiom 3 (Proportional Symbol) + Narrative Box -->
       <div class="grid-story-row">
         <div class="vis-card">
-          <div id="vis-idiom3" class="vis-container"></div>
+          <div id="vis-idiom0" class="vis-container"></div>
         </div>
         <div class="narrative-box">
-          <h3>Statewide Biodiversity Corridors</h3>
-          <p>
-            Across Victoria, wildlife observations cluster heavily around Greater Melbourne, the Dandenong Ranges, and the BallaratBendigo corridor. 
-            Using the <strong>Minimum Sightings slider</strong> reveals that zones within 45 km of Melbourne consistently support all 8 target species.
-          </p>
-          <p>
-            <strong>Ecological Groups Tracked:</strong><br>
-            <span class="badge badge-native">Native Bird</span> Magpie, Lorikeet, Noisy Miner, King-Parrot<br>
-            <span class="badge badge-invasive">Invasive Bird</span> Indian Myna, Common Blackbird<br>
-            <span class="badge badge-mammal">Mammal</span> Common Brushtail Possum<br>
-            <span class="badge badge-reptile">Reptile</span> Garden Sunskink
-          </p>
+          <h3>National Biodiversity Corridors</h3>
+          <p>Eastern coastal capitals support all nine target species.</p>
+          <p><span class="badge badge-native">Native Bird</span> Magpie, Lorikeet, Miner, King-Parrot.</p>
+          <p><span class="badge badge-invasive">Invasive Bird</span> Indian Myna, Common Blackbird.</p>
+          <p><span class="badge badge-mammal">Mammal</span> <span class="badge badge-reptile">Reptile</span> Possum, Flying-fox, Sunskink.</p>
         </div>
       </div>
 
-      <!-- Bottom Map Row: Idiom 2 (2D Bin Map) + Idiom 1 (Dot Plot Map) -->
       <div class="grid-2col">
         <div class="vis-card">
           <div id="vis-idiom2" class="vis-container"></div>
           <p class="caption-text">
-            <strong>Urban Micro-Habitats:</strong> Use the species dropdown above to compare how <em>Australian King-Parrots</em> hug the leafy eastern foothills (Dandenong Ranges) while <em>Indian Mynas</em> and <em>Rainbow Lorikeets</em> saturate the inner suburban grid.
+            King-Parrots prefer eastern foothills; Mynas cluster in inner suburbs.
           </p>
         </div>
 
         <div class="vis-card">
           <div id="vis-idiom1" class="vis-container"></div>
           <p class="caption-text">
-            <strong>Individual Sightings Explorer:</strong> Adjust the Year and Month sliders to inspect unaggregated point observations across Victoria, such as the September spring breeding peak.
+            Use sliders to explore monthly sightings across Australia.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: THE URBAN SPRAWL GRADIENT (IDIOM 5 + IDIOM 8) -->
+    <!-- SECTION 2: URBAN SPRAWL & INTERSTATE BIOGEOGRAPHY -->
     <section class="poster-section">
       <div class="section-banner">
-        <h2>2. The Urban Sprawl Gradient: Concrete Adapters vs. Bushland Specialists</h2>
-        <p>How distance from Melbourne's Central Business District (km_cbd) filters wildlife communities across concentric suburban rings.</p>
+        <h2>2. Urban Sprawl &amp; Interstate Biogeography</h2>
+        <p>Capital distance and climate shape wildlife communities.</p>
       </div>
 
-      <div class="grid-2col">
+      <div class="grid-2col" style="margin-bottom: 36px;">
         <div class="vis-card">
           <div id="vis-idiom5" class="vis-container"></div>
           <p class="caption-text">
-            <strong>Ridgeline Density Profile:</strong> <em>Indian Mynas</em> (median 12.2 km), <em>Noisy Miners</em> (17.7 km), and <em>Rainbow Lorikeets</em> (17.7 km) peak sharply in the inner-to-middle suburbs, whereas <em>Australian King-Parrots</em> (median 36.7 km) peak at the bushland fringe.
+            Mynas hug capital centres; King-Parrots prefer outer bushland.
           </p>
         </div>
 
         <div class="vis-card">
           <div id="vis-idiom8" class="vis-container"></div>
           <p class="caption-text">
-            <strong>Concentric Ring Composition:</strong> Invasive birds claim their highest proportional share in the <strong>Inner Urban (&lt;10 km)</strong> and <strong>Middle Suburbs (10-25 km)</strong> zones, while reptiles and mammals expand their share in the Outer Fringe and Regional Victoria.
+            Invasive birds peak inside inner urban capital rings.
           </p>
+        </div>
+      </div>
+
+      <div class="grid-story-row" style="margin-bottom: 0;">
+        <div class="vis-card">
+          <div id="vis-idiom9" class="vis-container"></div>
+        </div>
+        <div class="narrative-box">
+          <h3>Interstate Community Dominance</h3>
+          <p>Eastern mainland states support balanced multi-species communities.</p>
+          <p>Possums and Blackbirds dominate Tasmanian wildlife sightings.</p>
+          <p>Magpies dominate Western Australia; Possums lead Northern Territory.</p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 3: TEMPORAL & SEASONAL RHYTHMS (IDIOM 6, IDIOM 4, IDIOM 7) -->
+    <!-- SECTION 3: TEMPORAL & SEASONAL RHYTHMS -->
     <section class="poster-section">
       <div class="section-banner">
-        <h2>3. Temporal Partitioning: The 24-Hour Clock, Seasonal Cycles &amp; Multi-Year Growth</h2>
-        <p>Wildlife avoid direct competition by partitioning the 24-hour day and responding to distinct seasonal temperature and breeding cues.</p>
+        <h2>3. Daily &amp; Seasonal Partitioning</h2>
+        <p>Wildlife partition daily hours and seasonal cycles.</p>
       </div>
 
-      <div class="grid-2col" style="margin-bottom: 28px;">
+      <div class="grid-2col" style="margin-bottom: 36px;">
         <div class="vis-card">
           <div id="vis-idiom6" class="vis-container"></div>
           <p class="caption-text">
-            <strong>The 24-Hour Shift:</strong> Native birds surge at dawn (8 AM peak: 4,309 sightings), cold-blooded <em>Garden Sunskinks</em> emerge during warm solar noon hours (11 AM - 3 PM), and nocturnal <em>Common Brushtail Possums</em> dominate from 7 PM to 4 AM.
+            Birds peak at dawn; mammals forage at night.
           </p>
         </div>
 
         <div class="vis-card">
-          <div id="vis-idiom4" class="vis-container"></div>
+          <div id="vis-idiom3" class="vis-container"></div>
           <p class="caption-text">
-            <strong>Seasonal Activity Index:</strong> Comparing each species against its own monthly average reveals a sharp winter brumation drop for ectothermic <em>Garden Sunskinks</em> in June-July (0.19&times; typical), followed by aSeptember spring surge across all bird species.
+            Sunskinks bask near midday; nocturnal mammals emerge late.
           </p>
         </div>
       </div>
 
-      <!-- Full Width Bottom Row: Idiom 7 (Streamgraph) + Takeaway Box -->
-      <div class="grid-story-row" style="margin-bottom: 0;">
+      <div class="grid-2col">
+        <div class="vis-card">
+          <div id="vis-idiom4" class="vis-container"></div>
+          <p class="caption-text">
+            Sunskinks brumate in winter; birds surge in September.
+          </p>
+        </div>
+
         <div class="vis-card">
           <div id="vis-idiom7" class="vis-container"></div>
-        </div>
-        <div class="narrative-box">
-          <h3>The Citizen Science Boom (2020-2026)</h3>
-          <p>
-            Annual wildlife reporting across Victoria expanded nearly five-fold from <strong>2,576 sightings in 2020</strong> to <strong>12,237 sightings in 2025</strong>.
-          </p>
-          <p>
-            <strong>Interactive Tip:</strong> Click any species name in the legend of the streamgraph to isolate its multi-year trajectory. Notice how aggressive urban nectar-feeders (<em>Rainbow Lorikeet</em> and <em>Noisy Miner</em>) and introduced <em>Indian Mynas</em> have grown rapidly alongside expanding suburban development.
+          <p class="caption-text">
+            Click legend items to highlight annual species growth.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- REFERENCES SECTION (Exact ALA, ABS & GitHub Citations) -->
+    <section class="references-section">
+      <h3>Reference List</h3>
+      <ol class="reference-list">
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2F7f0b5430-3e37-4dd4-8dff-d6b288cde445&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Common Blackbird)
+        </li>
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2F98d9a608-5806-4fe7-b77f-d23d5ebd1395&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Indian Myna)
+        </li>
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2F5291343e-fdeb-4a65-8ba5-928f5b96acf5&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Australian Magpie)
+        </li>
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2F55213c39-1809-442e-b5fb-03fb99e8d97a&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Australian King-Parrot)
+        </li>
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2F4dfe64e2-a213-45c3-b585-cfcd690451ec&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Australian Lorikeet)
+        </li>
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2Fee7498bf-c57c-4463-b313-710d4959cc95&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Noisy Miner)
+        </li>
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2Fee2cb6a9-e17c-4ca7-8aef-76d69eb969ed&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Common Brushtail Possum)
+        </li>
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2F77bcae99-0037-44c6-9769-957a93215eba&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Grey-headed Flying-fox)
+        </li>
+        <li>
+          Atlas of Living Australia occurrence download at https://biocache.ala.org.au/occurrences/search?&amp;q=lsid%3Ahttps%3A%2F%2Fbiodiversity.org.au%2Fafd%2Ftaxa%2F0a7497ec-ab64-4bad-a8b1-a66c6ffb8718&amp;fq=occurrence_decade_i%3A%222020%22&amp;fq=contentTypes%3A%22citizen+science%22&amp;disableAllQualityFilters=true&amp;fq=-basisOfRecord%3A%22FOSSIL_SPECIMEN%22+AND+-%28basisOfRecord%3A%22MATERIAL_SAMPLE%22+AND+contentTypes%3A%22Environmental+DNA%22%29&amp;fq=-assertions%3ATAXON_MATCH_NONE+AND+-assertions%3AINVALID_SCIENTIFIC_NAME+AND+-assertions%3AUNKNOWN_KINGDOM+AND+-assertions%3ATAXON_SCOPE_MISMATCH+AND+-assertions%3ATAXON_HOMONYM&amp;fq=-occurrenceStatus%3AABSENT&amp;fq=-year%3A%5B*+TO+1700%5D&amp;fq=-userAssertions%3A50001+AND+-userAssertions%3A50005&amp;fq=-decimalLatitude%3A0+AND+-decimalLongitude%3A0+AND+-assertions%3A%22PRESUMED_SWAPPED_COORDINATE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_STATEPROVINCE%22+AND+-assertions%3A%22COORDINATES_CENTRE_OF_COUNTRY%22+AND+-assertions%3A%22PRESUMED_NEGATED_LATITUDE%22+AND+-assertions%3A%22PRESUMED_NEGATED_LONGITUDE%22&amp;fq=-outlierLayerCount%3A%5B3+TO+*%5D&amp;fq=-coordinateUncertaintyInMeters%3A%5B10001+TO+*%5D&amp;qc=-_nest_parent_%3A*. (Garden Sunskink)
+        </li>
+        <li>
+          Australian Bureau of Statistics: Regional population. https://www.abs.gov.au/statistics/people/population/regional-population/latest-release
+        </li>
+        <li>
+          Australian Bureau of Statistics: Digital boundary files. https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/access-and-downloads/digital-boundary-files
+        </li>
+        <li>
+          Wright, A. (2017). GeoJSON data for Australia [Data set]. GitHub. https://github.com/anthwri/GeoJson-Data
+        </li>
+      </ol>
+    </section>
+
+    <!-- FOOTER (Includes ID: 34076220, excludes Monash University and 2026) -->
     <footer class="poster-footer">
       <div>
-        <strong>FIT3179 Data Visualisation 2</strong> &bull; Monash University
+        <strong>FIT3179 Data Visualisation 2</strong> &bull; Author: Wen Wey Ng &bull; <strong>ID: 34076220</strong>
       </div>
       <div>
-        <strong>Data Sources:</strong> Atlas of Living Australia (ALA) / iNaturalist Citizen Science Records &amp; Australian Bureau of Statistics (ABS) LGA Boundaries (GDA2020)
+        <strong>Data Sources:</strong> Atlas of Living Australia (ALA) &amp; Australian Bureau of Statistics (ABS)
       </div>
     </footer>
 
   </main>
 
-  <!-- VEGA-EMBED SCRIPT -->
   <script>
     const embedOptions = { actions: false, renderer: "canvas" };
 
+    vegaEmbed('#vis-idiom0', 'idiom0_proportional_symbol_map.json', embedOptions).catch(console.error);
     vegaEmbed('#vis-idiom1', 'idiom1_dotplot.json', embedOptions).catch(console.error);
     vegaEmbed('#vis-idiom2', 'idiom2_bin_map.json', embedOptions).catch(console.error);
-    vegaEmbed('#vis-idiom3', 'idiom3_proportional_symbol_map.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom3', 'idiom3_diurnal_boxplot.json', embedOptions).catch(console.error);
     vegaEmbed('#vis-idiom4', 'idiom4_seasonal_heatmap.json', embedOptions).catch(console.error);
     vegaEmbed('#vis-idiom5', 'idiom5_ridgeline.json', embedOptions).catch(console.error);
     vegaEmbed('#vis-idiom6', 'idiom6_radial_clock.json', embedOptions).catch(console.error);
     vegaEmbed('#vis-idiom7', 'idiom7_streamgraph_trends.json', embedOptions).catch(console.error);
     vegaEmbed('#vis-idiom8', 'idiom8_marimeko_urban_zones.json', embedOptions).catch(console.error);
+    vegaEmbed('#vis-idiom9', 'idiom9_state_species_matrix.json', embedOptions).catch(console.error);
   </script>
 
 </body>

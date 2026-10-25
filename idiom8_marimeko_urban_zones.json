@@ -1,19 +1,32 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Community Composition Across Melbourne's Urbanization Rings",
-    "subtitle": "Proportion of wildlife sightings by ecological group across concentric distance zones from Melbourne CBD",
+    "text": "Community Composition Across Australian Capital Urbanization Rings",
+    "subtitle": "Proportion of wildlife sightings by ecological group across concentric distance zones from nearest State Capital",
     "fontSize": 15,
     "subtitleFontSize": 12,
     "anchor": "start"
   },
-  "width": 560,
-  "height": 300,
+  "width": 440,
+  "height": 290,
   "data": {"url": "data/sightings.csv"},
+  "params": [
+    {
+      "name": "state_select",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "ACT"],
+        "labels": ["All Australia", "New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "ACT"],
+        "name": "Filter by State: "
+      }
+    }
+  ],
   "transform": [
+    {"filter": "state_select == 'All' || datum.state_abbr == state_select"},
     {"calculate": "toNumber(datum.km_cbd)", "as": "dist"},
     {
-      "calculate": "datum.dist < 10 ? '1. Inner Urban (<10 km)' : datum.dist < 25 ? '2. Middle Suburbs (10-25 km)' : datum.dist < 50 ? '3. Outer Fringe (25-50 km)' : '4. Regional Victoria (>50 km)'",
+      "calculate": "datum.dist < 10 ? '1. Inner Urban (<10 km)' : datum.dist < 25 ? '2. Middle Suburbs (10-25 km)' : datum.dist < 50 ? '3. Outer Fringe (25-50 km)' : '4. Regional Australia (>50 km)'",
       "as": "urban_zone"
     },
     {
@@ -39,12 +52,12 @@
     "y": {
       "field": "urban_zone",
       "type": "ordinal",
-      "title": "Urbanization Zone (Distance from CBD)",
+      "title": "Distance from Nearest Capital CBD",
       "sort": [
         "1. Inner Urban (<10 km)",
         "2. Middle Suburbs (10-25 km)",
         "3. Outer Fringe (25-50 km)",
-        "4. Regional Victoria (>50 km)"
+        "4. Regional Australia (>50 km)"
       ]
     },
     "x": {

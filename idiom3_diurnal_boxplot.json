@@ -1,0 +1,125 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Daily Activity Windows by Wildlife Species",
+    "subtitle": "Core 50% sightings window and median hour",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "anchor": "start",
+    "offset": 18
+  },
+  "width": 440,
+  "height": 320,
+  "data": {"url": "data/sightings.csv"},
+  "params": [
+    {
+      "name": "state_select",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "ACT", "NT"],
+        "labels": [
+          "All Australia",
+          "New South Wales",
+          "Victoria",
+          "Queensland",
+          "South Australia",
+          "Western Australia",
+          "Tasmania",
+          "ACT",
+          "Northern Territory"
+        ],
+        "name": "Filter by State: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.has_time == 'True' || datum.has_time == true"},
+    {"filter": "state_select == 'All' || datum.state_abbr == state_select"},
+    {"calculate": "toNumber(datum.hour)", "as": "hour_num"}
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "boxplot",
+        "extent": 1.5,
+        "size": 18,
+        "median": {"color": "#ffffff", "strokeWidth": 2.5},
+        "outliers": false
+      },
+      "encoding": {
+        "y": {
+          "field": "species",
+          "type": "nominal",
+          "title": null,
+          "sort": [
+            "Australian King-Parrot",
+            "Australian Magpie",
+            "Rainbow Lorikeet",
+            "Noisy Miner",
+            "Indian Myna",
+            "Common Blackbird",
+            "Garden Sunskink",
+            "Common Brushtail Possum",
+            "Grey-headed Flying-fox"
+          ]
+        },
+        "x": {
+          "field": "hour_num",
+          "type": "quantitative",
+          "title": "Hour of Day (24h)",
+          "scale": {"domain": [0, 23]},
+          "axis": {
+            "values": [0, 3, 6, 9, 12, 15, 18, 21, 23],
+            "labelExpr": "datum.value + ':00'"
+          }
+        },
+        "color": {
+          "field": "group",
+          "type": "nominal",
+          "title": "Ecological Group",
+          "scale": {
+            "domain": ["Native bird", "Invasive bird", "Mammal", "Reptile"],
+            "range": ["#0284c7", "#dc2626", "#7c3aed", "#d97706"]
+          }
+        }
+      }
+    },
+    {
+      "data": {"values": [{"noon": 12, "label": "12:00 Solar Noon"}]},
+      "layer": [
+        {
+          "mark": {
+            "type": "rule",
+            "color": "#475569",
+            "strokeDash": [4, 4],
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "x": {"field": "noon", "type": "quantitative"}
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "bottom",
+            "dy": -6,
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "color": "#334155"
+          },
+          "encoding": {
+            "x": {"field": "noon", "type": "quantitative"},
+            "y": {"value": 0},
+            "text": {"field": "label"}
+          }
+        }
+      ]
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axisX": {"grid": true, "gridOpacity": 0.35}
+  }
+}

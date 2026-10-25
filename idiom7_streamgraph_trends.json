@@ -1,25 +1,36 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "The Citizen Science Boom: Wildlife Observation Growth (2020-2026)",
-    "subtitle": "Streamgraph of annual sightings by species (Click any species in the legend to highlight its trajectory)",
+    "text": "The Citizen Science Boom: Australian Wildlife Observation Growth (2020-2026)",
+    "subtitle": "Streamgraph of annual sightings across all 9 species (Click legend to highlight a species, or filter by State)",
     "fontSize": 15,
     "subtitleFontSize": 12,
     "anchor": "start"
   },
-  "width": 600,
-  "height": 340,
-  "data": {"url": "data/sightings.csv"},
+  "width": 540,
+  "height": 320,
+  "data": {"url": "data/state_sightings.csv"},
   "params": [
     {
       "name": "species_highlight",
       "select": {"type": "point", "fields": ["species"]},
       "bind": "legend"
+    },
+    {
+      "name": "state_select",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "ACT", "NT"],
+        "labels": ["All Australia", "New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "ACT", "Northern Territory"],
+        "name": "Filter by State: "
+      }
     }
   ],
   "transform": [
+    {"filter": "state_select == 'All' || datum.state_abbr == state_select"},
     {
-      "aggregate": [{"op": "count", "as": "annual_sightings"}],
+      "aggregate": [{"op": "sum", "field": "sightings", "as": "annual_sightings"}],
       "groupby": ["year", "species", "group"]
     }
   ],

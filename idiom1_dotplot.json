@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Dot Plot Map: Individual Wildlife Sightings Across Victoria",
+    "text": "Dot Plot Map: Individual Wildlife Sightings Across Australia",
     "subtitle": "Each dot represents a single citizen science observation, coloured by ecological group",
     "fontSize": 15,
     "subtitleFontSize": 12,
@@ -12,38 +12,26 @@
   "background": "#f8fafc",
   "projection": {
     "type": "mercator",
-    "center": [145.4, -36.6],
-    "scale": 3400
+    "center": [133.5, -28.0],
+    "scale": 700
   },
   "params": [
     {
       "name": "year_select",
       "value": 2025,
-      "bind": {
-        "input": "range",
-        "min": 2020,
-        "max": 2026,
-        "step": 1,
-        "name": "Observation Year: "
-      }
+      "bind": {"input": "range", "min": 2020, "max": 2026, "step": 1, "name": "Observation Year: "}
     },
     {
       "name": "month_select",
       "value": 9,
-      "bind": {
-        "input": "range",
-        "min": 1,
-        "max": 12,
-        "step": 1,
-        "name": "Observation Month (1=Jan, 9=Sep): "
-      }
+      "bind": {"input": "range", "min": 1, "max": 12, "step": 1, "name": "Observation Month (1=Jan, 9=Sep): "}
     }
   ],
   "layer": [
     {
       "data": {
-        "url": "data/LGA_2025_AUST_GDA2020.json",
-        "format": {"type": "json", "property": "geometries"}
+        "url": "data/australian-states-fixed.json",
+        "format": {"type": "json", "property": "features"}
       },
       "mark": {
         "type": "geoshape",
@@ -59,7 +47,7 @@
       ],
       "mark": {
         "type": "circle",
-        "size": 24,
+        "size": 15,
         "opacity": 0.75
       },
       "encoding": {
@@ -76,11 +64,8 @@
         },
         "tooltip": [
           {"field": "species", "type": "nominal", "title": "Species"},
-          {"field": "group", "type": "nominal", "title": "Group"},
-          {"field": "year", "type": "ordinal", "title": "Year"},
-          {"field": "month", "type": "ordinal", "title": "Month"},
-          {"field": "hour", "type": "quantitative", "title": "Hour (24h)"},
-          {"field": "km_cbd", "type": "quantitative", "title": "Distance to CBD (km)", "format": ".1f"}
+          {"field": "stateProvince", "type": "nominal", "title": "State"},
+          {"field": "km_cbd", "type": "quantitative", "title": "Dist to Capital (km)", "format": ".1f"}
         ]
       }
     }
